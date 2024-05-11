@@ -1,8 +1,7 @@
 import Image from "next/image";
 
 // libs
-import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
-import { Loader2 } from "lucide-react";
+import ClerkFetchingComponent from "@/components/ClerkFetchingComponent";
 
 const AuthLayout = ({ children }: { children: JSX.Element }) => {
     return (
@@ -15,10 +14,9 @@ const AuthLayout = ({ children }: { children: JSX.Element }) => {
                     </p>
                 </div>
                 <div className="flex items-center justify-center mt-8">
-                    <ClerkLoaded>{children}</ClerkLoaded>
-                    <ClerkLoading>
-                        <Loader2 className="animate-spin text-muted-foreground" />
-                    </ClerkLoading>
+                    <ClerkFetchingComponent loaderClassnames="text-muted-foreground">
+                        {children}
+                    </ClerkFetchingComponent>
                 </div>
             </div>
             <div className="h-full bg-blue-600 hidden lg:flex items-center justify-center">

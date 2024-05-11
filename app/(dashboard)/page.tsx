@@ -1,5 +1,5 @@
 const Dashboard = () => {
-    return <p>This is an authenticated route</p>;
+    return <div>This is dashboard</div>;
 };
 
 export default Dashboard;
