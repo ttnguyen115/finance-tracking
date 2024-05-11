@@ -7,6 +7,9 @@ import "./globals.css";
 import { QueryProvider } from "@/providers/queryProvider";
 import { SheetProvider } from "@/providers/sheetProvider";
 
+// components
+import { Toaster } from "@/components/ui/sonner";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,6 +28,7 @@ export default function RootLayout({
                 <body className={inter.className}>
                     <QueryProvider>
                         <SheetProvider />
+                        <Toaster />
                         {children}
                     </QueryProvider>
                 </body>
