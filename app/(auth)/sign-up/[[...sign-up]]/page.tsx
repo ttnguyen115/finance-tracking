@@ -1,5 +1,11 @@
-const SignUp = () => {
-    return <div>SignUp</div>;
+// libs
+import { SignUp } from "@clerk/nextjs";
+
+// constants
+import { NavigatorPath } from "@/constants";
+
+const SignUpPage = () => {
+    return <SignUp path={NavigatorPath.SIGN_UP} />;
 };
 
-export default SignUp;
+export default SignUpPage;
