@@ -5,6 +5,7 @@ import "./globals.css";
 
 // providers
 import { QueryProvider } from "@/providers/queryProvider";
+import { SheetProvider } from "@/providers/sheetProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,10 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en">
                 <body className={inter.className}>
-                    <QueryProvider>{children}</QueryProvider>
+                    <QueryProvider>
+                        <SheetProvider />
+                        {children}
+                    </QueryProvider>
                 </body>
             </html>
         </ClerkProvider>

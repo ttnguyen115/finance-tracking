@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 // libs
-import { useMedia } from "react-use";
+import { useMedia } from "@/hooks";
 
 // constants
 import { NavigationRoutes } from "@/constants";
