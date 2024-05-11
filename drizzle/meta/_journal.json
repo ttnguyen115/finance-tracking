@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1715408159102,
+      "tag": "0000_glossy_puff_adder",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1715415660064,
+      "tag": "0001_ambiguous_serpent_society",
+      "breakpoints": true
+    }
+  ]
+}
