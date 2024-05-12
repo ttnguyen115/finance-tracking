@@ -7,45 +7,44 @@ import { useNewAccount } from "@/features/accounts/hooks";
 import DataTable from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Loader2, Plus } from "lucide-react";
 
 // types
-import { columns, type Payment } from "@/app/(dashboard)/accounts/column";
+import { type Row } from "@tanstack/react-table";
+import { columns } from "@/app/(dashboard)/accounts/column";
 
-async function getData(): Promise<Payment[]> {
-    return [
-        {
-            id: "asd",
-            amount: 100,
-            status: "pending",
-            email: "test@test.com",
-        },
-        {
-            id: "asd",
-            amount: 100,
-            status: "pending",
-            email: "a@test.com",
-        },
-    ];
-}
-
-const data: Payment[] = [
-    {
-        id: "asd",
-        amount: 100,
-        status: "pending",
-        email: "test@test.com",
-    },
-    {
-        id: "asd",
-        amount: 100,
-        status: "pending",
-        email: "a@test.com",
-    },
-];
+// apis
+import { useGetAccounts, useBulkDeleteAccounts } from "@/features/accounts/api";
 
 const AccountsPage = () => {
     const newAccount = useNewAccount();
+    const { data: accounts = [], isLoading } = useGetAccounts();
+    const { isPending, mutate } = useBulkDeleteAccounts();
+
+    const isDisabled = isLoading || isPending;
+
+    const onDeleteRow = (rows: Row<any>[]) => {
+        const ids = rows.map((row: Row<any>) => row.original.id);
+        mutate({ ids });
+    }
+
+    if (isLoading) {
+        return (
+            <div className="component-container w-full pb-10 -mt-24">
+                <Card className="border-none drop-shadow-sm">
+                    <CardHeader>
+                        <Skeleton className="h-8 w-48" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-[500px] w-full flex items-center justify-center">
+                            <Loader2 className="size-6 text-slate-300 animate-spin" />
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
 
     return (
         <div className="component-container w-full pb-10 -mt-24">
@@ -60,10 +59,10 @@ const AccountsPage = () => {
                 <CardContent>
                     <DataTable
                         columns={columns}
-                        data={data}
-                        filterKey="email"
-                        onDelete={() => {}}
-                        disabled={false}
+                        data={accounts}
+                        filterKey="name"
+                        onDelete={onDeleteRow}
+                        disabled={isDisabled}
                     />
                 </CardContent>
             </Card>

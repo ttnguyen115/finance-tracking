@@ -16,6 +16,9 @@ import {
     type SortingState,
 } from "@tanstack/react-table";
 
+// hooks
+import { useConfirm } from "@/hooks";
+
 // components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +43,11 @@ function DataTable<TData, TValue>({
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [rowSelection, setRowSelection] = useState({});
 
+    const [ConfirmDialog, confirm] = useConfirm(
+        "Are you sure?",
+        "You are about to perform a bulk delete."
+    );
+
     const table = useReactTable({
         data,
         columns,
@@ -57,27 +65,43 @@ function DataTable<TData, TValue>({
         },
     });
 
-    const renderFilterInput = () => (
-        <div className="flex items-center py-4">
-            <Input
-                placeholder={`Filter ${filterKey}... `}
-                value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
-                onChange={(event) => table.getColumn(filterKey)?.setFilterValue(event.target.value)}
-                className="max-w-sm"
-            />
-            {table.getFilteredSelectedRowModel().rows.length > 0 && (
-                <Button
-                    disabled={disabled}
-                    size="sm"
-                    variant="outline"
-                    className="ml-auto font-normal text-xs"
-                >
-                    <Trash className="size-4 mr-2" />
-                    Delete ({table.getFilteredSelectedRowModel().rows.length})
-                </Button>
-            )}
-        </div>
-    );
+    const renderFilterInput = () => {
+        const tableRows = table.getFilteredSelectedRowModel().rows;
+        const tableRowCount = tableRows.length;
+
+        const handleClickDelete = async () => {
+            const ok = await confirm();
+            if (ok) {
+                onDelete(tableRows);
+                table.resetRowSelection();
+            }
+        };
+
+        return (
+            <div className="flex items-center py-4">
+                <Input
+                    placeholder={`Filter ${filterKey}... `}
+                    value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn(filterKey)?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                />
+                {tableRowCount > 0 && (
+                    <Button
+                        disabled={disabled}
+                        size="sm"
+                        variant="outline"
+                        className="ml-auto font-normal text-xs"
+                        onClick={handleClickDelete}
+                    >
+                        <Trash className="size-4 mr-2" />
+                        Delete ({tableRows.length})
+                    </Button>
+                )}
+            </div>
+        );
+    };
 
     const renderTablePagination = () => (
         <div className="flex items-center justify-end space-x-2 py-4">
@@ -106,6 +130,7 @@ function DataTable<TData, TValue>({
 
     return (
         <div>
+            <ConfirmDialog />
             {renderFilterInput()}
             <div className="rounded-md border">
                 <Table>
@@ -163,7 +188,7 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     filterKey: string;
-    onDelete: (rows: Row<TData>) => void;
+    onDelete: (rows: Row<TData>[]) => void;
     disabled?: boolean;
 }
 
