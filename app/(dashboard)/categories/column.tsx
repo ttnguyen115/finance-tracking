@@ -5,7 +5,7 @@ import { client } from "@/lib/hono";
 import { InferResponseType } from "hono";
 
 // components
-import { Actions } from "@/app/(dashboard)/accounts/actions";
+import { Actions } from "@/app/(dashboard)/categories/actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
@@ -13,7 +13,7 @@ import { ArrowUpDown } from "lucide-react";
 // types
 import { type ColumnDef } from "@tanstack/react-table";
 
-export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
+export type ResponseType = InferResponseType<typeof client.api.categories.$get, 200>["data"][0];
 
 export const columns: ColumnDef<ResponseType>[] = [
     {

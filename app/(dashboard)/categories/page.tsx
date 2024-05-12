@@ -1,7 +1,7 @@
 "use client";
 
 // hooks
-import { useNewAccount } from "@/features/accounts/hooks";
+import { useNewCategory } from "@/features/categories/hooks";
 
 // components
 import DataTable from "@/components/DataTable";
@@ -11,23 +11,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Plus } from "lucide-react";
 
 // types
+import { columns } from "@/app/(dashboard)/categories/column";
 import { type Row } from "@tanstack/react-table";
-import { columns } from "@/app/(dashboard)/accounts/column";
 
 // apis
-import { useGetAccounts, useBulkDeleteAccounts } from "@/features/accounts/api";
+import { useBulkDeleteCategories, useGetCategories } from "@/features/categories/api";
 
-const AccountsPage = () => {
-    const newAccount = useNewAccount();
-    const { data: accounts = [], isLoading } = useGetAccounts();
-    const { isPending, mutate } = useBulkDeleteAccounts();
+const CategoriesPage = () => {
+    const newCategory = useNewCategory();
+    const { data: categories = [], isLoading } = useGetCategories();
+    const { isPending, mutate } = useBulkDeleteCategories();
 
     const isDisabled = isLoading || isPending;
 
     const onDeleteRow = (rows: Row<any>[]) => {
         const ids = rows.map((row: Row<any>) => row.original.id);
         mutate({ ids });
-    }
+    };
 
     if (isLoading) {
         return (
@@ -50,8 +50,8 @@ const AccountsPage = () => {
         <div className="component-container w-full pb-10 -mt-24">
             <Card className="border-none drop-shadow-sm">
                 <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-                    <CardTitle className="text-xl line-clamp-1">AccountsPage</CardTitle>
-                    <Button onClick={newAccount.onOpen} size="sm">
+                    <CardTitle className="text-xl line-clamp-1">Categories</CardTitle>
+                    <Button onClick={newCategory.onOpen} size="sm">
                         <Plus className="size-4 mr-2" />
                         Add new
                     </Button>
@@ -59,7 +59,7 @@ const AccountsPage = () => {
                 <CardContent>
                     <DataTable
                         columns={columns}
-                        data={accounts}
+                        data={categories}
                         filterKey="name"
                         onDelete={onDeleteRow}
                         disabled={isDisabled}
@@ -70,4 +70,4 @@ const AccountsPage = () => {
     );
 };
 
-export default AccountsPage;
+export default CategoriesPage;

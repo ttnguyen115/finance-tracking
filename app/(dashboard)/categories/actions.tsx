@@ -1,7 +1,7 @@
 "use client";
 
 // hooks
-import { useOpenAccount } from "@/features/accounts/hooks";
+import { useOpenCategory } from "@/features/categories/hooks";
 
 // components
 import { Button } from "@/components/ui/button";
@@ -14,13 +14,13 @@ import {
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
 // apis
-import { useDeleteAccount } from "@/features/accounts/api";
+import { useDeleteCategory } from "@/features/categories/api";
 import { useConfirm } from "@/hooks";
 
 export const Actions = ({ id }: ActionsProps) => {
-    const { onOpen } = useOpenAccount();
+    const { onOpen } = useOpenCategory();
 
-    const { mutate: deleteMutation, isPending } = useDeleteAccount(id);
+    const { mutate: deleteMutation, isPending } = useDeleteCategory(id);
 
     const [ConfirmDialog, confirm] = useConfirm(
         "Are you sure?",
