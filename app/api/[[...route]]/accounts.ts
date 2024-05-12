@@ -14,7 +14,10 @@ import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
 const app = new Hono()
-    .get("/", clerkMiddleware(), async (ctx) => {
+    .get(
+        "/",
+        clerkMiddleware(),
+        async (ctx) => {
         const auth = getAuth(ctx);
         if (!auth?.userId) {
             return ctx.json({ error: "Unauthorized" }, 401);
@@ -27,7 +30,8 @@ const app = new Hono()
             .where(eq(accounts.userId, auth.userId));
 
         return ctx.json({ data });
-    })
+        }
+    )
     .post(
         "/",
         clerkMiddleware(),
