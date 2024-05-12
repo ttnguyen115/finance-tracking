@@ -15,6 +15,13 @@
       "when": 1715415660064,
       "tag": "0001_ambiguous_serpent_society",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1715505022566,
+      "tag": "0002_sudden_smiling_tiger",
+      "breakpoints": true
     }
   ]
 }
