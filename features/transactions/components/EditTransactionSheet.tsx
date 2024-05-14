@@ -14,12 +14,12 @@ import { AccountForm } from "@/features/accounts/components";
 import { Loader2 } from "lucide-react";
 
 // types
-import { type FormValues } from "./AccountForm";
+import { type FormValues } from "./TransactionForm";
 
 // apis
 import { useDeleteAccount, useEditAccount, useGetAccountById } from "@/features/accounts/api";
 
-const EditAccountSheet = () => {
+const EditTransactionSheet = () => {
     const { isOpen, onClose, id } = useOpenAccount();
 
     const [ConfirmDialog, confirm] = useConfirm(
@@ -45,9 +45,9 @@ const EditAccountSheet = () => {
         if (ok) {
             deleteMutation(undefined, {
                 onSuccess: onClose,
-            })
+            });
         }
-    }
+    };
 
     return (
         <>
@@ -77,4 +77,4 @@ const EditAccountSheet = () => {
     );
 };
 
-export default EditAccountSheet;
+export default EditTransactionSheet;
