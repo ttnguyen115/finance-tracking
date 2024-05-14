@@ -17,13 +17,13 @@ const useDeleteCategory = (id?: string) => {
             return await response.json();
         },
         onSuccess() {
-            toast.success("Account deleted!");
-            queryClient.invalidateQueries({ queryKey: ["categories", { id }] });
+            toast.success("Category deleted!");
+            queryClient.invalidateQueries({ queryKey: ["category", { id }] });
             queryClient.invalidateQueries({ queryKey: ["categories"] });
             // TODO: Invalidate summary and transactions
         },
         onError: () => {
-            toast.error("Failed to delete account.");
+            toast.error("Failed to delete category.");
         },
     });
 

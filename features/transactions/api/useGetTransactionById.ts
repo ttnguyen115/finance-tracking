@@ -2,17 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@/lib/hono";
 
-const useGetCategoryById = (id?: string) => {
+const useGetTransactionById = (id?: string) => {
     const query = useQuery({
         enabled: !!id,
-        queryKey: ["category", { id }],
+        queryKey: ["transaction", { id }],
         queryFn: async () => {
-            const response = await client.api.categories[":id"].$get({
+            const response = await client.api.transactions[":id"].$get({
                 param: { id },
             });
 
             if (!response.ok) {
-                throw new Error("Failed to fetch category");
+                throw new Error("Failed to fetch transaction");
             }
 
             const { data } = await response.json();
@@ -23,4 +23,4 @@ const useGetCategoryById = (id?: string) => {
     return query;
 };
 
-export default useGetCategoryById;
+export default useGetTransactionById;

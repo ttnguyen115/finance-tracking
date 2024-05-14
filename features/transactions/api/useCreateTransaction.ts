@@ -4,27 +4,27 @@ import { toast } from "sonner";
 
 import { client } from "@/lib/hono";
 
-type RequestType = InferRequestType<typeof client.api.accounts.$post>["json"];
-type ResponseType = InferResponseType<typeof client.api.accounts.$post>;
+type RequestType = InferRequestType<typeof client.api.transactions.$post>["json"];
+type ResponseType = InferResponseType<typeof client.api.transactions.$post>;
 
-const useCreateAccount = () => {
+const useCreateTransaction = () => {
     const queryClient = useQueryClient();
 
     const mutation: any = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
-            const response: any = await client.api.accounts.$post({ json });
+            const response: any = await client.api.transactions.$post({ json });
             return await response.json();
         },
         onSuccess() {
-            toast.success("Account created!");
-            queryClient.invalidateQueries({ queryKey: ["account"] });
+            toast.success("Transaction created!");
+            queryClient.invalidateQueries({ queryKey: ["transaction"] });
         },
         onError: () => {
-            toast.error("Failed to create account.");
+            toast.error("Failed to create transaction.");
         },
     });
 
     return mutation;
 };
 
-export default useCreateAccount;
+export default useCreateTransaction;

@@ -16,11 +16,11 @@ const useCreateCategory = () => {
             return await response.json();
         },
         onSuccess() {
-            toast.success("Account created!");
+            toast.success("Category created!");
             queryClient.invalidateQueries({ queryKey: ["categories"] });
         },
         onError: () => {
-            toast.error("Failed to create account.");
+            toast.error("Failed to create category.");
         },
     });
 
