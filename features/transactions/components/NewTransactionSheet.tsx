@@ -23,7 +23,7 @@ import {
 import { TransactionForm } from "@/features/transactions/components";
 import { Loader2 } from "lucide-react";
 
-const formSchema = insertTransactionSchema.pick({
+const formSchema = insertTransactionSchema.omit({
     id: true,
 });
 
@@ -59,12 +59,8 @@ const NewTransactionSheet = () => {
         value: id,
     }));
 
-    const isPending = isCreatingCategory || isCreatingCategory || isCreatingAccount;
+    const isPending = isCreatingTransaction || isCreatingCategory || isCreatingAccount;
     const isLoading = isFetchingCategories || isFetchingAccounts;
-
-    const defaultAccountFormValues = {
-        name: "",
-    };
 
     const onSubmit = (values: FormValues) => {
         createTransaction(values, {
