@@ -1,5 +1,7 @@
 "use client";
 
+// libs
+
 // hooks
 import { useNewTransaction } from "@/features/transactions/hooks";
 
@@ -11,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Plus } from "lucide-react";
 
 // types
-import { columns } from "@/app/(dashboard)/transactions/column";
+import { columns, type ResponseType as Transaction } from "@/app/(dashboard)/transactions/column";
 import { type Row } from "@tanstack/react-table";
 
 // apis
@@ -24,8 +26,8 @@ const TransactionsPage = () => {
 
     const isDisabled = isLoading || isPending;
 
-    const onDeleteRow = (rows: Row<any>[]) => {
-        const ids = rows.map((row: Row<any>) => row.original.id);
+    const onDeleteRow = (rows: Row<Transaction>[]) => {
+        const ids = rows.map((row: Row<Transaction>) => row.original.id);
         mutate({ ids });
     };
 

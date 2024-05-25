@@ -6,3 +6,4 @@
 4. Add comment for functions & components
 5. Add documents
 6. Add unit test
+7. Fix `any` types
