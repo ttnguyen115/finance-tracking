@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 
 // utils
-import { convertAmountFromMiliunits, formatCurrency } from "@/utils";
+import { formatCurrency } from "@/utils";
 import { format } from "date-fns";
 
 // types
@@ -90,6 +90,31 @@ export const columns: ColumnDef<ResponseType>[] = [
             );
         },
         cell: ({ row }) => <span>{row.original.category}</span>,
+    },
+    {
+        accessorKey: "amount",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Amount
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const amount = parseFloat(row.getValue("amount"));
+            return (
+                <Badge
+                    variant={amount < 0 ? "destructive" : "primary"}
+                    className="text-xs font-medium px-3.5 py-2.5"
+                >
+                    {formatCurrency(amount)}
+                </Badge>
+            );
+        },
     },
     {
         accessorKey: "account",
