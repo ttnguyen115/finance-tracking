@@ -30,8 +30,8 @@ const formSchema = z.object({
 
 const apiSchema = insertTransactionSchema.omit({ id: true });
 
-type FormValues = z.input<typeof formSchema>;
-type ApiFormValues = z.input<typeof apiSchema>;
+export type FormValues = z.input<typeof formSchema>;
+export type ApiFormValues = z.input<typeof apiSchema>;
 
 const TransactionForm = ({
     id,

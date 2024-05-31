@@ -58,6 +58,7 @@ const NewTransactionSheet = () => {
         label: name,
         value: id,
     }));
+    // TODO: Refactor end
 
     const isPending = isCreatingTransaction || isCreatingCategory || isCreatingAccount;
     const isLoading = isFetchingCategories || isFetchingAccounts;

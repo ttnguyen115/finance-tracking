@@ -5,6 +5,8 @@ import { client } from "@/lib/hono";
 import { InferResponseType } from "hono";
 
 // components
+import AccountColumn from "@/app/(dashboard)/transactions/AccountColumn";
+import CategoryColumn from "@/app/(dashboard)/transactions/CategoryColumn";
 import { Actions } from "@/app/(dashboard)/transactions/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -74,7 +76,10 @@ export const columns: ColumnDef<ResponseType>[] = [
                 </Button>
             );
         },
-        cell: ({ row }) => <span>{row.original.category}</span>,
+        cell: ({ row }) => {
+            const { id, category, categoryId } = row.original;
+            return <CategoryColumn id={id} category={category} categoryId={categoryId} />;
+        },
     },
     {
         accessorKey: "payee",
@@ -89,7 +94,7 @@ export const columns: ColumnDef<ResponseType>[] = [
                 </Button>
             );
         },
-        cell: ({ row }) => <span>{row.original.category}</span>,
+        cell: ({ row }) => <span>{row.original.payee}</span>,
     },
     {
         accessorKey: "amount",
@@ -130,7 +135,8 @@ export const columns: ColumnDef<ResponseType>[] = [
             );
         },
         cell: ({ row }) => {
-            return <span>{row.original.account}</span>;
+            const { account, accountId } = row.original;
+            return <AccountColumn account={account} accountId={accountId} />;
         },
     },
     {

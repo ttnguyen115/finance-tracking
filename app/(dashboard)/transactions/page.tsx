@@ -62,7 +62,7 @@ const TransactionsPage = () => {
                     <DataTable
                         columns={columns}
                         data={transactions}
-                        filterKey="account"
+                        filterKey="payee"
                         onDelete={onDeleteRow}
                         disabled={isDisabled}
                     />
