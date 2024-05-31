@@ -18,18 +18,18 @@ const app = new Hono()
         "/",
         clerkMiddleware(),
         async (ctx) => {
-        const auth = getAuth(ctx);
-        if (!auth?.userId) {
-            return ctx.json({ error: "Unauthorized" }, 401);
-        }
+            const auth = getAuth(ctx);
+            if (!auth?.userId) {
+                return ctx.json({ error: "Unauthorized" }, 401);
+            }
 
-        const { id, name } = accounts;
-        const data = await db
-            .select({ id, name })
-            .from(accounts)
-            .where(eq(accounts.userId, auth.userId));
+            const { id, name } = accounts;
+            const data = await db
+                .select({ id, name })
+                .from(accounts)
+                .where(eq(accounts.userId, auth.userId));
 
-        return ctx.json({ data });
+            return ctx.json({ data });
         }
     )
     .get(

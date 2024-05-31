@@ -1,7 +1,9 @@
 "use client";
 
+// libs
+
 // hooks
-import { useNewAccount } from "@/features/accounts/hooks";
+import { useNewTransaction } from "@/features/transactions/hooks";
 
 // components
 import DataTable from "@/components/DataTable";
@@ -11,23 +13,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Plus } from "lucide-react";
 
 // types
+import { columns, type ResponseType as Transaction } from "@/app/(dashboard)/transactions/column";
 import { type Row } from "@tanstack/react-table";
-import { columns } from "@/app/(dashboard)/accounts/column";
 
 // apis
-import { useGetAccounts, useBulkDeleteAccounts } from "@/features/accounts/api";
+import { useBulkDeleteTransactions, useGetTransactions } from "@/features/transactions/api";
 
-const AccountsPage = () => {
-    const { onOpen } = useNewAccount();
-    const { data: accounts = [], isLoading } = useGetAccounts();
-    const { isPending, mutate } = useBulkDeleteAccounts();
+const TransactionsPage = () => {
+    const { onOpen } = useNewTransaction();
+    const { data: transactions = [], isLoading } = useGetTransactions();
+    const { isPending, mutate } = useBulkDeleteTransactions();
 
     const isDisabled = isLoading || isPending;
 
-    const onDeleteRow = (rows: Row<any>[]) => {
-        const ids = rows.map((row: Row<any>) => row.original.id);
+    const onDeleteRow = (rows: Row<Transaction>[]) => {
+        const ids = rows.map((row: Row<Transaction>) => row.original.id);
         mutate({ ids });
-    }
+    };
 
     if (isLoading) {
         return (
@@ -50,7 +52,7 @@ const AccountsPage = () => {
         <div className="component-container w-full pb-10 -mt-24">
             <Card className="border-none drop-shadow-sm">
                 <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-                    <CardTitle className="text-xl line-clamp-1">Accounts</CardTitle>
+                    <CardTitle className="text-xl line-clamp-1">Transactions</CardTitle>
                     <Button onClick={onOpen} size="sm">
                         <Plus className="size-4 mr-2" />
                         Add new
@@ -59,8 +61,8 @@ const AccountsPage = () => {
                 <CardContent>
                     <DataTable
                         columns={columns}
-                        data={accounts}
-                        filterKey="name"
+                        data={transactions}
+                        filterKey="payee"
                         onDelete={onDeleteRow}
                         disabled={isDisabled}
                     />
@@ -70,4 +72,4 @@ const AccountsPage = () => {
     );
 };
 
-export default AccountsPage;
+export default TransactionsPage;

@@ -18,7 +18,7 @@ import { type Row } from "@tanstack/react-table";
 import { useBulkDeleteCategories, useGetCategories } from "@/features/categories/api";
 
 const CategoriesPage = () => {
-    const newCategory = useNewCategory();
+    const { onOpen } = useNewCategory();
     const { data: categories = [], isLoading } = useGetCategories();
     const { isPending, mutate } = useBulkDeleteCategories();
 
@@ -51,7 +51,7 @@ const CategoriesPage = () => {
             <Card className="border-none drop-shadow-sm">
                 <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
                     <CardTitle className="text-xl line-clamp-1">Categories</CardTitle>
-                    <Button onClick={newCategory.onOpen} size="sm">
+                    <Button onClick={onOpen} size="sm">
                         <Plus className="size-4 mr-2" />
                         Add new
                     </Button>

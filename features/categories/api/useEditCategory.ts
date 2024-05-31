@@ -4,8 +4,8 @@ import { toast } from "sonner";
 
 import { client } from "@/lib/hono";
 
-type RequestType = InferRequestType<typeof client.api.categories[":id"]["$patch"]>["json"];
-type ResponseType = InferResponseType<typeof client.api.categories[":id"]["$patch"]>;
+type RequestType = InferRequestType<(typeof client.api.categories)[":id"]["$patch"]>["json"];
+type ResponseType = InferResponseType<(typeof client.api.categories)[":id"]["$patch"]>;
 
 const useEditCategory = (id?: string) => {
     const queryClient = useQueryClient();
@@ -19,13 +19,15 @@ const useEditCategory = (id?: string) => {
             return await response.json();
         },
         onSuccess() {
-            toast.success("Account edited!");
-            queryClient.invalidateQueries({ queryKey: ["categories", { id }] });
+            toast.success("Category edited!");
+            queryClient.invalidateQueries({ queryKey: ["category", { id }] });
             queryClient.invalidateQueries({ queryKey: ["categories"] });
+            // Update category when editing in `transactions` page
+            queryClient.invalidateQueries({ queryKey: ["transactions"] });
             // TODO: Invalidate summary and transactions
         },
         onError: () => {
-            toast.error("Failed to edit account.");
+            toast.error("Failed to edit category.");
         },
     });
 
