@@ -1,6 +1,6 @@
 "use client";
 
-// libs
+import { useState } from "react";
 
 // hooks
 import { useNewTransaction } from "@/features/transactions/hooks";
@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Plus } from "lucide-react";
+import ImportCard from "./ImportCard";
+import UploadButton from "./UploadButton";
 
 // types
 import { columns, type ResponseType as Transaction } from "@/app/(dashboard)/transactions/column";
@@ -19,7 +21,21 @@ import { type Row } from "@tanstack/react-table";
 // apis
 import { useBulkDeleteTransactions, useGetTransactions } from "@/features/transactions/api";
 
+enum VARIANTS {
+    LIST = "LIST",
+    IMPORT = "IMPORT",
+}
+
+const INITIAL_IMPORT_RESULTS = {
+    data: [],
+    errors: [],
+    meta: {},
+};
+
 const TransactionsPage = () => {
+    const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
+    const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
+
     const { onOpen } = useNewTransaction();
     const { data: transactions = [], isLoading } = useGetTransactions();
     const { isPending, mutate } = useBulkDeleteTransactions();
@@ -29,6 +45,17 @@ const TransactionsPage = () => {
     const onDeleteRow = (rows: Row<Transaction>[]) => {
         const ids = rows.map((row: Row<Transaction>) => row.original.id);
         mutate({ ids });
+    };
+
+    const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
+        console.log(results);
+        setImportResults(results);
+        setVariant(VARIANTS.IMPORT);
+    };
+
+    const onCancelImport = () => {
+        setImportResults(INITIAL_IMPORT_RESULTS);
+        setVariant(VARIANTS.LIST);
     };
 
     if (isLoading) {
@@ -48,15 +75,26 @@ const TransactionsPage = () => {
         );
     }
 
+    if (variant === VARIANTS.IMPORT) {
+        return (
+            <>
+                <ImportCard data={importResults.data} onCancel={onCancelImport} onSubmit={() => {}} />
+            </>
+        );
+    }
+
     return (
         <div className="component-container w-full pb-10 -mt-24">
             <Card className="border-none drop-shadow-sm">
                 <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
                     <CardTitle className="text-xl line-clamp-1">Transactions</CardTitle>
-                    <Button onClick={onOpen} size="sm">
-                        <Plus className="size-4 mr-2" />
-                        Add new
-                    </Button>
+                    <div className="flex items-center gap-x-2">
+                        <Button onClick={onOpen} size="sm">
+                            <Plus className="size-4 mr-2" />
+                            Add new
+                        </Button>
+                        <UploadButton onUpload={onUpload} />
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <DataTable
