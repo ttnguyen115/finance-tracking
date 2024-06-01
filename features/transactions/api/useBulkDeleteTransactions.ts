@@ -10,7 +10,7 @@ type ResponseType = InferResponseType<typeof client.api.transactions["bulk-delet
 const useBulkDeleteTransactions = () => {
     const queryClient = useQueryClient();
 
-    const mutation: any = useMutation<ResponseType, Error, RequestType>({
+    const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
             const response: any = await client.api.transactions["bulk-delete"]["$post"]({ json });
             return await response.json();

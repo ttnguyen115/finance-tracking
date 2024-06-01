@@ -4,13 +4,13 @@ import { toast } from "sonner";
 
 import { client } from "@/lib/hono";
 
-type RequestType = InferRequestType<typeof client.api.accounts["bulk-delete"]["$post"]>["json"];
-type ResponseType = InferResponseType<typeof client.api.accounts["bulk-delete"]["$post"]>;
+type RequestType = InferRequestType<(typeof client.api.accounts)["bulk-delete"]["$post"]>["json"];
+type ResponseType = InferResponseType<(typeof client.api.accounts)["bulk-delete"]["$post"]>;
 
 const useBulkDeleteAccounts = () => {
     const queryClient = useQueryClient();
 
-    const mutation: any = useMutation<ResponseType, Error, RequestType>({
+    const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
             const response: any = await client.api.accounts["bulk-delete"]["$post"]({ json });
             return await response.json();

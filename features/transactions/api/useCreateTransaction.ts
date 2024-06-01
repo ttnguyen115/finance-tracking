@@ -10,7 +10,7 @@ type ResponseType = InferResponseType<typeof client.api.transactions.$post>;
 const useCreateTransaction = () => {
     const queryClient = useQueryClient();
 
-    const mutation: any = useMutation<ResponseType, Error, RequestType>({
+    const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
             const response: any = await client.api.transactions.$post({ json });
             return await response.json();

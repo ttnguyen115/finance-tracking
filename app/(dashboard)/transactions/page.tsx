@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 // hooks
+import { useSelectAccount } from "@/features/accounts/hooks";
 import { useNewTransaction } from "@/features/transactions/hooks";
 
 // components
@@ -19,7 +21,10 @@ import { columns, type ResponseType as Transaction } from "@/app/(dashboard)/tra
 import { type Row } from "@tanstack/react-table";
 
 // apis
-import { useBulkDeleteTransactions, useGetTransactions } from "@/features/transactions/api";
+import { useBulkCreateTransactions, useBulkDeleteTransactions, useGetTransactions } from "@/features/transactions/api";
+
+// schema
+import { transactions as transactionSchema } from "@/db/schema";
 
 enum VARIANTS {
     LIST = "LIST",
@@ -33,24 +38,40 @@ const INITIAL_IMPORT_RESULTS = {
 };
 
 const TransactionsPage = () => {
+    const [AccountDialog, confirm] = useSelectAccount();
+
     const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
     const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
 
     const { onOpen } = useNewTransaction();
-    const { data: transactions = [], isLoading } = useGetTransactions();
-    const { isPending, mutate } = useBulkDeleteTransactions();
 
-    const isDisabled = isLoading || isPending;
+    const { data: transactions = [], isLoading: isFetchingTransactions } = useGetTransactions();
+    const { mutate: bulkCreateTransactions, isPending: isCreatingTransactions } = useBulkCreateTransactions();
+    const { mutate: bulkDeleteTransactions, isPending: isDeletingTransactions } = useBulkDeleteTransactions();
+
+    const isDisabled = isFetchingTransactions || isCreatingTransactions || isDeletingTransactions;
 
     const onDeleteRow = (rows: Row<Transaction>[]) => {
         const ids = rows.map((row: Row<Transaction>) => row.original.id);
-        mutate({ ids });
+        bulkDeleteTransactions({ ids });
     };
 
     const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-        // TODO: add bulk create transactions request
         setImportResults(results);
         setVariant(VARIANTS.IMPORT);
+    };
+
+    const onSubmitImport = async (values: (typeof transactionSchema.$inferInsert)[]) => {
+        const accountId = await confirm();
+        if (!accountId) return toast.error("Please select an account to continue.");
+        const data = values.map((value) => ({
+            ...value,
+            accountId: accountId as string,
+        }));
+        console.log(data);
+        bulkCreateTransactions(data, {
+            onSuccess: onCancelImport,
+        });
     };
 
     const onCancelImport = () => {
@@ -58,7 +79,7 @@ const TransactionsPage = () => {
         setVariant(VARIANTS.LIST);
     };
 
-    if (isLoading) {
+    if (isFetchingTransactions) {
         return (
             <div className="component-container w-full pb-10 -mt-24">
                 <Card className="border-none drop-shadow-sm">
@@ -78,7 +99,8 @@ const TransactionsPage = () => {
     if (variant === VARIANTS.IMPORT) {
         return (
             <>
-                <ImportCard data={importResults.data} onCancel={onCancelImport} onSubmit={() => {}} />
+                <AccountDialog />
+                <ImportCard data={importResults.data} onCancel={onCancelImport} onSubmit={onSubmitImport} />
             </>
         );
     }

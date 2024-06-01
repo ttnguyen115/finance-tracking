@@ -9,7 +9,7 @@ type ResponseType = InferResponseType<(typeof client.api.transactions)[":id"]["$
 const useDeleteTransaction = (id?: string) => {
     const queryClient = useQueryClient();
 
-    const mutation: any = useMutation<ResponseType, Error>({
+    const mutation = useMutation<ResponseType, Error>({
         mutationFn: async () => {
             const response: any = await client.api.transactions[":id"]["$delete"]({
                 param: { id },
