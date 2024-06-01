@@ -48,7 +48,7 @@ const TransactionsPage = () => {
     };
 
     const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-        console.log(results);
+        // TODO: add bulk create transactions request
         setImportResults(results);
         setVariant(VARIANTS.IMPORT);
     };
@@ -88,8 +88,8 @@ const TransactionsPage = () => {
             <Card className="border-none drop-shadow-sm">
                 <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
                     <CardTitle className="text-xl line-clamp-1">Transactions</CardTitle>
-                    <div className="flex items-center gap-x-2">
-                        <Button onClick={onOpen} size="sm">
+                    <div className="flex flex-col lg:flex-row gap-y-2 items-center gap-x-2">
+                        <Button onClick={onOpen} size="sm" className="w-full lg:w-auto">
                             <Plus className="size-4 mr-2" />
                             Add new
                         </Button>
