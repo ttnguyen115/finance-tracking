@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { InferRequestType, InferResponseType } from "hono";
+import { InferResponseType } from "hono";
 import { toast } from "sonner";
 
 import { client } from "@/lib/hono";
 
-type ResponseType = InferResponseType<typeof client.api.accounts[":id"]["$delete"]>;
+type ResponseType = InferResponseType<(typeof client.api.accounts)[":id"]["$delete"]>;
 
 const useDeleteAccount = (id?: string) => {
     const queryClient = useQueryClient();
 
-    const mutation: any = useMutation<ResponseType, Error>({
+    const mutation = useMutation<ResponseType, Error>({
         mutationFn: async () => {
             const response: any = await client.api.accounts[":id"]["$delete"]({
                 param: { id },
