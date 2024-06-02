@@ -1,7 +1,7 @@
 "use client";
 
-// components
 import ClerkFetchingComponent from "@/components/ClerkFetchingComponent";
+import Filters from "@/components/Filters";
 import HeaderLogo from "@/components/HeaderLogo";
 import Navigation from "@/components/Navigation";
 import WelcomeMsg from "@/components/WelcomeMsg";
@@ -18,6 +18,7 @@ const Header = () => {
                     <ClerkFetchingComponent loaderClassnames="size-8 text-slate-400" />
                 </div>
                 <WelcomeMsg />
+                <Filters />
             </div>
         </div>
     );
