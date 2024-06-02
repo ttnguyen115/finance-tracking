@@ -1,17 +1,16 @@
 "use client";
 
-// hooks
-import { useNewAccount } from "@/features/accounts/hooks";
+// container component
+import { DataGrid } from "@/containers";
 
 // components
-import { Button } from "@/components/ui/button";
+import DataCharts from "@/components/DataCharts";
 
 const Dashboard = () => {
-    const { onOpen } = useNewAccount();
-
     return (
-        <div>
-            <Button onClick={onOpen}>Add an account</Button>
+        <div className="component-container w-full pb-10 -mt-24">
+            <DataGrid />
+            <DataCharts />
         </div>
     );
 };
