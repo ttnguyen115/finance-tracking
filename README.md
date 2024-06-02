@@ -1,5 +1,6 @@
 ### Backlog TODO:
 
+0. Add GHA
 1. Check and import & export all components/icons from libs (react-currency-input-field, radix-ui, lucide, react-day-picker, react-select,...)
 2. Refactor duplicated functions and components
 3. Avoid magic numbers

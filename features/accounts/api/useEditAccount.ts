@@ -24,7 +24,7 @@ const useEditAccount = (id?: string) => {
             queryClient.invalidateQueries({ queryKey: ["accounts"] });
             // Update account when editing in `transactions` page
             queryClient.invalidateQueries({ queryKey: ["transactions"] });
-            // TODO: Invalidate summary and transactions
+            queryClient.invalidateQueries({ queryKey: ["summary"] });
         },
         onError: () => {
             toast.error("Failed to edit account.");

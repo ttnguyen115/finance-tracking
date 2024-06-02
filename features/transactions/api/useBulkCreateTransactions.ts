@@ -4,8 +4,8 @@ import { toast } from "sonner";
 
 import { client } from "@/lib/hono";
 
-type RequestType = InferRequestType<typeof client.api.transactions["bulk-create"]["$post"]>["json"];
-type ResponseType = InferResponseType<typeof client.api.transactions["bulk-create"]["$post"]>;
+type RequestType = InferRequestType<(typeof client.api.transactions)["bulk-create"]["$post"]>["json"];
+type ResponseType = InferResponseType<(typeof client.api.transactions)["bulk-create"]["$post"]>;
 
 const useBulkCreateTransactions = () => {
     const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ const useBulkCreateTransactions = () => {
         onSuccess() {
             toast.success("Transactions created!");
             queryClient.invalidateQueries({ queryKey: ["transactions"] });
-            // TODO: Invalidate summary
+            queryClient.invalidateQueries({ queryKey: ["summary"] });
         },
         onError: () => {
             toast.error("Failed to create transactions.");
