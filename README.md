@@ -11,4 +11,5 @@
 9. BREAKING CHANGES: Update `drizzle` package version
 10. Split `toaster` lib into new repo as AOP
 11. Bug: CSV upload with csvImportMocks
-12. (If applicable) add unit test and cypress test
+12. Add `memo` to component to improve perf
+13. (If applicable) add unit test and cypress test
