@@ -26,6 +26,8 @@ import { useBulkCreateTransactions, useBulkDeleteTransactions, useGetTransaction
 // schema
 import { transactions as transactionSchema } from "@/db/schema";
 
+export type SubmitImportValues = (typeof transactionSchema.$inferInsert)[];
+
 enum VARIANTS {
     LIST = "LIST",
     IMPORT = "IMPORT",
@@ -61,14 +63,13 @@ const TransactionsPage = () => {
         setVariant(VARIANTS.IMPORT);
     };
 
-    const onSubmitImport = async (values: (typeof transactionSchema.$inferInsert)[]) => {
+    const onSubmitImport = async (values: SubmitImportValues) => {
         const accountId = await confirm();
         if (!accountId) return toast.error("Please select an account to continue.");
         const data = values.map((value) => ({
             ...value,
             accountId: accountId as string,
         }));
-        console.log(data);
         bulkCreateTransactions(data, {
             onSuccess: onCancelImport,
         });

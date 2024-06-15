@@ -12,7 +12,7 @@ const useBulkDeleteTransactions = () => {
 
     const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
-            const response: any = await client.api.transactions["bulk-delete"]["$post"]({ json });
+            const response = await client.api.transactions["bulk-delete"]["$post"]({ json });
             return await response.json();
         },
         onSuccess() {

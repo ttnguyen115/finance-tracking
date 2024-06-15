@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Plus } from "lucide-react";
 
 // types
-import { columns } from "@/app/(dashboard)/categories/column";
+import { columns, type ResponseType } from "@/app/(dashboard)/categories/column";
 import { type Row } from "@tanstack/react-table";
 
 // apis
@@ -24,8 +24,8 @@ const CategoriesPage = () => {
 
     const isDisabled = isLoading || isPending;
 
-    const onDeleteRow = (rows: Row<any>[]) => {
-        const ids = rows.map((row: Row<any>) => row.original.id);
+    const onDeleteRow = (rows: Row<ResponseType>[]) => {
+        const ids = rows.map((row: Row<ResponseType>) => row.original.id);
         mutate({ ids });
     };
 

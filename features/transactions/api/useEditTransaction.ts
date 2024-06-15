@@ -12,7 +12,7 @@ const useEditTransaction = (id?: string) => {
 
     const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
-            const response: any = await client.api.transactions[":id"]["$patch"]({
+            const response = await client.api.transactions[":id"]["$patch"]({
                 json,
                 param: { id },
             });
