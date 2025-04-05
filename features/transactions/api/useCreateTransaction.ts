@@ -12,7 +12,7 @@ const useCreateTransaction = () => {
 
     const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
-            const response: any = await client.api.transactions.$post({ json });
+            const response = await client.api.transactions.$post({ json });
             return await response.json();
         },
         onSuccess() {

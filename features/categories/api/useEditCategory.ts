@@ -12,7 +12,7 @@ const useEditCategory = (id?: string) => {
 
     const mutation = useMutation<ResponseType, Error, RequestType>({
         mutationFn: async (json) => {
-            const response: any = await client.api.categories[":id"]["$patch"]({
+            const response = await client.api.categories[":id"]["$patch"]({
                 json,
                 param: { id },
             });

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 // components
 import { Separator } from "@/components/ui/separator";
 
-const CategoryTooltip = ({ active, payload }: any) => {
+const CategoryTooltip = ({ active, payload }: CategoryTooltipProps) => {
     if (!active) return null;
 
     const [
@@ -35,8 +35,8 @@ const CategoryTooltip = ({ active, payload }: any) => {
 };
 
 type CategoryTooltipProps = {
-    active: boolean;
-    payload: any;
+    active?: boolean;
+    payload?: any;
 };
 
 export default CategoryTooltip;

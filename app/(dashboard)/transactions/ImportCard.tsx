@@ -9,6 +9,9 @@ import ImportTable from "./ImportTable";
 import { convertAmountToMiliunits } from "@/utils";
 import { format, parse } from "date-fns";
 
+// types
+import { type SubmitImportValues } from "@/app/(dashboard)/transactions/page";
+
 const dateFormat = "yyyy-MM-dd HH:mm:ss";
 const outputFormat = "yyyy-MM-dd";
 
@@ -46,12 +49,12 @@ const ImportCard = ({ data, onCancel, onSubmit }: ImportCardProps) => {
         };
 
         const mappedData = {
-            headers: headers.map((header, index) => {
+            headers: headers.map((_, index) => {
                 const columnIndex = getColumnIndex(`column_${index}`);
                 return selectedColumns[`column_${columnIndex}`] || null;
             }),
             body: body
-                .map((row, index) => {
+                .map((row) => {
                     const transformedRow = row.map((cell, index) => {
                         const columnIndex = getColumnIndex(`column_${index}`);
                         return selectedColumns[`column_${columnIndex}`] ? cell : null;
@@ -113,7 +116,7 @@ const ImportCard = ({ data, onCancel, onSubmit }: ImportCardProps) => {
 type ImportCardProps = {
     data: string[][];
     onCancel: () => void;
-    onSubmit: (data: any) => void;
+    onSubmit: (values: SubmitImportValues) => void;
 };
 
 export default ImportCard;

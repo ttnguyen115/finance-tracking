@@ -6,6 +6,7 @@ import { formatCurrency } from "@/utils";
 // components
 import CategoryTooltip from "@/components/CategoryTooltip";
 import { Legend, RadialBar, RadialBarChart, ResponsiveContainer, Tooltip } from "recharts";
+import { type Payload } from "recharts/types/component/DefaultLegendContent";
 
 const COLORS = ["#0062FF", "#12C6FF", "#FF647F", "#FF9354"];
 

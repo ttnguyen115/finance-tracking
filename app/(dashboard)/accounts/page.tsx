@@ -12,7 +12,7 @@ import { Loader2, Plus } from "lucide-react";
 
 // types
 import { type Row } from "@tanstack/react-table";
-import { columns } from "@/app/(dashboard)/accounts/column";
+import { type ResponseType, columns } from "@/app/(dashboard)/accounts/column";
 
 // apis
 import { useGetAccounts, useBulkDeleteAccounts } from "@/features/accounts/api";
@@ -24,8 +24,8 @@ const AccountsPage = () => {
 
     const isDisabled = isLoading || isPending;
 
-    const onDeleteRow = (rows: Row<any>[]) => {
-        const ids = rows.map((row: Row<any>) => row.original.id);
+    const onDeleteRow = (rows: Row<ResponseType>[]) => {
+        const ids = rows.map((row: Row<ResponseType>) => row.original.id);
         mutate({ ids });
     }
 
