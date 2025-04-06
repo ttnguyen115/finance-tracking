@@ -14,8 +14,29 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: oven-sh/setup-bun@v2
-            
             - name: Create .env.local file
               run: echo "${{ secrets.ENV_PRODUCTION }}" > .env.local
             - run: bun i --force
             - run: bun run build
+
+    deploy:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Executing remote SSH commands using password
+              uses: appleboy/ssh-action@v1
+              with:
+                host: ${{ secrets.HOST_PRODUCTION }}
+                username: ${{ secrets.SSH_USERNAME_PRODUCTION }}
+                password: ${{ secrets.SSH_PASSWORD_PRODUCTION }}
+                port: ${{ secrets.PORT_PRODUCTION }}
+                script: |
+                    export NVM_DIR=~/.nvm
+                    source ~/.nvm/nvm.sh
+                    cd ~/dev/finance-tracking
+                    git fetch --all
+                    git reset --hard origin/main
+                    echo "${{ secrets.ENV_PRODUCTION }}" > .env.local
+                    bun i --force
+                    bun run build
+                    pm2 restart 'Bun Finance'
