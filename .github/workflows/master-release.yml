@@ -24,7 +24,7 @@ jobs:
         needs: build
         steps:
             - name: Executing remote SSH commands using password
-              uses: appleboy/ssh-action@v1
+              uses: appleboy/ssh-action@v1.2.0
               with:
                 host: ${{ secrets.HOST_PRODUCTION }}
                 username: ${{ secrets.SSH_USERNAME_PRODUCTION }}
