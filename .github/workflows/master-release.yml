@@ -24,12 +24,12 @@ jobs:
         needs: build
         steps:
             - name: Executing remote SSH commands using password
-              uses: appleboy/ssh-action@v1.2.0
+              uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.HOST_PRODUCTION }}
+                port: ${{ secrets.PORT_PRODUCTION }}
                 username: ${{ secrets.SSH_USERNAME_PRODUCTION }}
                 password: ${{ secrets.SSH_PASSWORD_PRODUCTION }}
-                port: ${{ secrets.PORT_PRODUCTION }}
                 script: |
                     export NVM_DIR=~/.nvm
                     source ~/.nvm/nvm.sh
