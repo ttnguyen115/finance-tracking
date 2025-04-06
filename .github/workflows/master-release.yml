@@ -1,0 +1,24 @@
+name: Master Release
+
+on:
+    push:
+        branches: ['main']
+    pull_request:
+        branches: ['main']
+
+jobs:
+    # test:
+
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                node-version: 22
+                cache: 'npm'
+            - name: Create .env.local file
+              run: echo "${{ secrets.ENV_PRODUCTION }}" > .env.local
+            - run: npm i --force
+            - run: npm run build
